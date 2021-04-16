@@ -26,11 +26,10 @@ class _SignInPageState extends State<SignInPage> {
             child: Text(
               'MU CAFE',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                decoration: TextDecoration.none,
-                height: 2
-              ),
+                  color: Colors.white,
+                  fontSize: 30,
+                  decoration: TextDecoration.none,
+                  height: 2),
             ),
           ),
           SizedBox(
@@ -62,16 +61,14 @@ class _SignInPageState extends State<SignInPage> {
               height: 50,
               width: 200,
               child: TextField(
-                obscureText: false,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: 'Password'
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _password = value;
-                  });
-                }
-              ),
+                  obscureText: false,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), hintText: 'Password'),
+                  onChanged: (value) {
+                    setState(() {
+                      _password = value;
+                    });
+                  }),
             ),
           ),
           SizedBox(
@@ -80,11 +77,19 @@ class _SignInPageState extends State<SignInPage> {
           Center(
             child: ElevatedButton(
               child: Text('Log In'),
-              onPressed: () {
-                auth.signInWithEmailAndPassword(
-                  email: _email, password: _password);
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => HomePage()));
+              onPressed: () async {
+                try {
+                  UserCredential user = await auth.signInWithEmailAndPassword(
+                      email: _email, password: _password);
+                  if (user != null) {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => HomePage()));
+                  }
+                } catch (e) {
+                  print(e);
+                  _email = "";
+                  _password = "";
+                }
               },
             ),
           ),
@@ -92,22 +97,17 @@ class _SignInPageState extends State<SignInPage> {
             height: 30,
           ),
           Center(
-            child: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                    text: 'Don\'t have an account?',
-                    recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      Navigator.of(context).pushReplacement(
+              child: RichText(
+                  text: TextSpan(children: <TextSpan>[
+            TextSpan(
+                text: 'Don\'t have an account?',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => SignUpPage()));
-                    },
-                    style: TextStyle(color: Colors.blue)
-                  )
-                ]
-              )
-            )
-          )
+                  },
+                style: TextStyle(color: Colors.blue))
+          ])))
         ],
       ),
     );
