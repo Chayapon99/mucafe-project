@@ -1,7 +1,17 @@
 import 'package:app_project/SignInPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  String _email, _password;
+
+  final auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +22,7 @@ class SignUpPage extends StatelessWidget {
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => SignInPage()));
+                  MaterialPageRoute(builder: (context) => SignInPage()));
             },
           ),
         ),
@@ -68,11 +78,22 @@ class SignUpPage extends StatelessWidget {
           Center(
             child: ElevatedButton(
               child: Text('Sign Up'),
-              onPressed: () {
-                // auth.signInWithEmailAndPassword(
-                //   email: _email, password: _password);
-                // Navigator.of(context).pushReplacement(
-                //   MaterialPageRoute(builder: (context) => HomePage()));
+              onPressed: () async {
+                try {
+                  User user = (await auth.createUserWithEmailAndPassword(
+                          email: _email,
+                          password: _password))
+                      .user;
+                  await user.updateProfile(displayName: _email);
+                  final user1 = auth.currentUser;
+                  if (user1 != null) {
+                    Navigator.pop(context);
+                  }
+                } catch (e) {
+                  print(e);
+                  _email = "";
+                  _password = "";
+                }
               },
             ),
           ),

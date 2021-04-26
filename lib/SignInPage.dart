@@ -61,7 +61,7 @@ class _SignInPageState extends State<SignInPage> {
               height: 50,
               width: 200,
               child: TextField(
-                  obscureText: false,
+                  obscureText: true,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), hintText: 'Password'),
                   onChanged: (value) {
