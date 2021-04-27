@@ -9,45 +9,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  createDialog(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Welcome to\nMU CAFE'),
-            elevation: 24.0,
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('OK'))
-            ],
-          );
-        });
-  }
-
-  displayHomeScreen() {
-    return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.all(24.0),
-        children: <Widget>[
-          Text(
-            'Recommended Cafe',
-            style: TextStyle(fontSize: 24),
-          ),
-          Padding(padding: EdgeInsets.only(bottom: 12.0)),
-          SizedBox(
-            height: 1.0,
-            child: DecoratedBox(decoration: BoxDecoration(color: Colors.teal)),
-          ),
-          ListTile(
-            
-          )
-        ],
-      ),
-    );
-  }
 
   @override
   void initState() {
@@ -102,7 +63,48 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: displayHomeScreen(),
+      body: HomeScreen(),
+    );
+  }
+
+  createDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Welcome to\nMU CAFE'),
+            elevation: 24.0,
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'))
+            ],
+          );
+        });
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView(
+        padding: EdgeInsets.all(24.0),
+        children: <Widget>[
+          Text(
+            'Recommended Cafe',
+            style: TextStyle(fontSize: 24),
+          ),
+          Padding(padding: EdgeInsets.only(bottom: 12.0)),
+          SizedBox(
+            height: 1.0,
+            child: DecoratedBox(decoration: BoxDecoration(color: Colors.teal)),
+          ),
+          ListTile()
+        ],
+      ),
     );
   }
 }
