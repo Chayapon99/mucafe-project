@@ -77,20 +77,7 @@ class _SignInPageState extends State<SignInPage> {
           Center(
             child: ElevatedButton(
               child: Text('Log In'),
-              onPressed: () async {
-                try {
-                  UserCredential user = await auth.signInWithEmailAndPassword(
-                      email: _email, password: _password);
-                  if (user != null) {
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => HomePage()));
-                  }
-                } catch (e) {
-                  print(e);
-                  _email = "";
-                  _password = "";
-                }
-              },
+              onPressed: () async {},
             ),
           ),
           SizedBox(
@@ -111,5 +98,20 @@ class _SignInPageState extends State<SignInPage> {
         ],
       ),
     );
+  }
+
+  Future signIn() async {
+    try {
+      UserCredential user = await auth.signInWithEmailAndPassword(
+          email: _email, password: _password);
+      if (user != null) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()));
+      }
+    } catch (e) {
+      print(e);
+      _email = "";
+      _password = "";
+    }
   }
 }

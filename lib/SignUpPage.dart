@@ -35,41 +35,53 @@ class _SignUpPageState extends State<SignUpPage> {
               height: 50,
               width: 200,
               child: TextField(
-                obscureText: false,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Email',
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Center(
-            child: Container(
-              height: 50,
-              width: 200,
-              child: TextField(
-                obscureText: false,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Password'),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Center(
-            child: Container(
-              height: 50,
-              width: 200,
-              child: TextField(
-                obscureText: false,
-                decoration: InputDecoration(
+                  obscureText: false,
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Confirm a Password'),
-              ),
+                    hintText: 'Email',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _email = value;
+                    });
+                  }),
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Center(
+            child: Container(
+              height: 50,
+              width: 200,
+              child: TextField(
+                  obscureText: false,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), hintText: 'Password'),
+                  onChanged: (value) {
+                    setState(() {
+                      _password = value;
+                    });
+                  }),
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Center(
+            child: Container(
+              height: 50,
+              width: 200,
+              child: TextField(
+                  obscureText: false,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Confirm a Password'),
+                  onChanged: (value) {
+                    setState(() {
+                      _email = value;
+                    });
+                  }),
             ),
           ),
           SizedBox(
@@ -79,24 +91,22 @@ class _SignUpPageState extends State<SignUpPage> {
             child: ElevatedButton(
               child: Text('Sign Up'),
               onPressed: () async {
-                try {
-                  User user = (await auth.createUserWithEmailAndPassword(
-                          email: _email,
-                          password: _password))
-                      .user;
-                  await user.updateProfile(displayName: _email);
-                  final user1 = auth.currentUser;
-                  if (user1 != null) {
-                    Navigator.pop(context);
-                  }
-                } catch (e) {
-                  print(e);
-                  _email = "";
-                  _password = "";
-                }
+                signUp();
               },
             ),
           ),
         ]));
+  }
+
+  Future signUp() async {
+    try {
+      UserCredential user = (await auth.createUserWithEmailAndPassword(
+          email: _email.trim(), password: _password.trim()));
+      if (user != null) {
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
