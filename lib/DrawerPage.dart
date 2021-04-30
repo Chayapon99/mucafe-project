@@ -1,4 +1,4 @@
-import 'package:app_project/HomePage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class DrawerPage extends StatelessWidget {
@@ -10,7 +10,7 @@ class DrawerPage extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           Container(
-            height: 80,
+            height: 100,
             child: DrawerHeader(
               child: Text(
                 'MENU',
@@ -48,8 +48,26 @@ class DrawerPage extends StatelessWidget {
             ),
             onTap: () {},
           ),
+          SizedBox(
+            height: 300,
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text(
+              'Log out',
+              style: TextStyle(fontSize: 14),
+            ),
+            onTap: () {
+              signOut();
+              Navigator.of(context).popUntil((route) => true);
+            },
+          )
         ],
       ),
     );
+  }
+
+  Future signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

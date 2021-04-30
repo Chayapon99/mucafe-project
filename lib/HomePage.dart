@@ -54,7 +54,6 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomeScreen extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,14 +72,16 @@ class HomeScreen extends StatelessWidget {
             child: DecoratedBox(
                 decoration: BoxDecoration(color: Colors.grey.shade400)),
           ),
-          SizedBox(height: 24,),
+          SizedBox(
+            height: 24,
+          ),
           ListTile(
             leading: Image.network(
-                'https://lh5.googleusercontent.com/p/AF1QipM2kFjk8VVsAZWncUt0WJiqfKfQeJ0_V-zTG8zq=s0',
-                ),
+              'https://lh5.googleusercontent.com/p/AF1QipM2kFjk8VVsAZWncUt0WJiqfKfQeJ0_V-zTG8zq=s0',
+            ),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => MapPage()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => MapPage()));
             },
           ),
         ],
