@@ -11,6 +11,7 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   String _email, _password;
+
   final auth = FirebaseAuth.instance;
 
   Widget build(BuildContext context) {
@@ -43,7 +44,8 @@ class _SignInPageState extends State<SignInPage> {
                 obscureText: false,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.zero),),
+                    borderRadius: BorderRadius.all(Radius.zero),
+                  ),
                   hintText: 'Email',
                 ),
                 onChanged: (value) {
@@ -64,9 +66,10 @@ class _SignInPageState extends State<SignInPage> {
               child: TextField(
                   obscureText: true,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.zero)),
-                      hintText: 'Password'),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.zero)),
+                    hintText: 'Password',
+                  ),
                   onChanged: (value) {
                     setState(() {
                       _password = value;
@@ -100,7 +103,7 @@ class _SignInPageState extends State<SignInPage> {
                 text: 'Don\'t have an account?',
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.of(context).pushReplacement(
+                    Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => SignUpPage()));
                   },
                 style: TextStyle(color: Colors.teal.shade300))
@@ -112,8 +115,23 @@ class _SignInPageState extends State<SignInPage> {
 
   Future signIn() async {
     try {
-      UserCredential user = await auth.signInWithEmailAndPassword(
-          email: _email, password: _password);
+      UserCredential user = await auth
+          .signInWithEmailAndPassword(email: _email, password: _password)
+          .catchError((err) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Error'),
+                content: Text(err.message),
+                actions: [
+                  TextButton(
+                      onPressed: Navigator.of(context).pop, 
+                      child: Text('OK'))
+                ],
+              );
+            });
+      });
       if (user != null) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => HomePage()));

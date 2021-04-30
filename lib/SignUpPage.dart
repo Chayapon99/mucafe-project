@@ -1,6 +1,7 @@
 import 'package:app_project/SignInPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -8,16 +9,17 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  String _email, _password;
+  String _email, _password, _confirmpassword;
 
   final auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('Create Your Account'),
-          backgroundColor: Colors.teal,
+          backgroundColor: Colors.teal.shade300,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
@@ -55,7 +57,7 @@ class _SignUpPageState extends State<SignUpPage> {
               height: 50,
               width: 200,
               child: TextField(
-                  obscureText: false,
+                  obscureText: true,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), hintText: 'Password'),
                   onChanged: (value) {
@@ -73,13 +75,13 @@ class _SignUpPageState extends State<SignUpPage> {
               height: 50,
               width: 200,
               child: TextField(
-                  obscureText: false,
+                  obscureText: true,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Confirm a Password'),
                   onChanged: (value) {
                     setState(() {
-                      _email = value;
+                      _confirmpassword = value;
                     });
                   }),
             ),
@@ -90,6 +92,12 @@ class _SignUpPageState extends State<SignUpPage> {
           Center(
             child: ElevatedButton(
               child: Text('Sign Up'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.teal.shade300,
+                onPrimary: Colors.white,
+                shape: const BeveledRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.zero)),
+              ),
               onPressed: () async {
                 signUp();
               },
@@ -100,13 +108,21 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Future signUp() async {
     try {
-      UserCredential user = (await auth.createUserWithEmailAndPassword(
-          email: _email.trim(), password: _password.trim()));
-      if (user != null) {
-        Navigator.pop(context);
+      if (_password == _confirmpassword && _password.length >= 6) {
+        UserCredential user = await auth
+            .createUserWithEmailAndPassword(
+                email: _email.trim(), password: _password.trim())
+            .catchError((err) {
+          print(err.message);
+        });
+        if (user != null) {
+          Navigator.of(context, rootNavigator: true).pop();
+        }
       }
     } catch (e) {
       print(e);
+      _email = "";
+      _password = "";
     }
   }
 }
