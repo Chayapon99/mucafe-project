@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:app_project/DrawerPage.dart';
+import 'package:app_project/MapPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,7 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   void initState() {
     Future.delayed(Duration(seconds: 1), () => createDialog(context));
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.teal.shade300,
         title: Center(
           child: Text(
             'MU CAFE',
@@ -28,41 +29,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      drawer: Drawer(
-        elevation: 16.0,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 80,
-              child: DrawerHeader(
-                child: Text(
-                  'MENU',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.teal,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Home', style: TextStyle(fontSize: 14),),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Search', style: TextStyle(fontSize: 14),),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text('Contact us', style: TextStyle(fontSize: 14),),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
+      drawer: DrawerPage(),
       body: HomeScreen(),
     );
   }
@@ -87,22 +54,35 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomeScreen extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(8.0),
         children: <Widget>[
-          Text(
-            'Recommended Cafe',
-            style: TextStyle(fontSize: 24),
+          ListTile(
+            title: Text(
+              'Recommended Cafe',
+              style: TextStyle(fontSize: 24),
+            ),
           ),
-          Padding(padding: EdgeInsets.only(bottom: 12.0)),
+          Padding(padding: EdgeInsets.only(bottom: 8.0)),
           SizedBox(
             height: 1.0,
-            child: DecoratedBox(decoration: BoxDecoration(color: Colors.teal)),
+            child: DecoratedBox(
+                decoration: BoxDecoration(color: Colors.grey.shade400)),
           ),
-          ListTile()
+          SizedBox(height: 24,),
+          ListTile(
+            leading: Image.network(
+                'https://lh5.googleusercontent.com/p/AF1QipM2kFjk8VVsAZWncUt0WJiqfKfQeJ0_V-zTG8zq=s0',
+                ),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => MapPage()));
+            },
+          ),
         ],
       ),
     );

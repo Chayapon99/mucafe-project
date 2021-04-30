@@ -20,7 +20,7 @@ class _SignInPageState extends State<SignInPage> {
         children: [
           Container(
             alignment: Alignment.bottomCenter,
-            decoration: BoxDecoration(color: Colors.teal),
+            decoration: BoxDecoration(color: Colors.teal.shade300),
             width: 500,
             height: 150,
             child: Text(
@@ -42,7 +42,8 @@ class _SignInPageState extends State<SignInPage> {
               child: TextField(
                 obscureText: false,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.zero),),
                   hintText: 'Email',
                 ),
                 onChanged: (value) {
@@ -63,7 +64,9 @@ class _SignInPageState extends State<SignInPage> {
               child: TextField(
                   obscureText: true,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(), hintText: 'Password'),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.zero)),
+                      hintText: 'Password'),
                   onChanged: (value) {
                     setState(() {
                       _password = value;
@@ -76,8 +79,15 @@ class _SignInPageState extends State<SignInPage> {
           ),
           Center(
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.teal.shade300,
+                  onPrimary: Colors.white,
+                  shape: const BeveledRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.zero))),
               child: Text('Log In'),
-              onPressed: () async {},
+              onPressed: () async {
+                signIn();
+              },
             ),
           ),
           SizedBox(
@@ -93,7 +103,7 @@ class _SignInPageState extends State<SignInPage> {
                     Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => SignUpPage()));
                   },
-                style: TextStyle(color: Colors.blue))
+                style: TextStyle(color: Colors.teal.shade300))
           ])))
         ],
       ),
