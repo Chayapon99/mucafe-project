@@ -1,7 +1,32 @@
+import 'package:app_project/SignInPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class DrawerPage extends StatelessWidget {
+  signOutConfirmation(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Do you want to exit?'),
+            elevation: 24.0,
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  signOut();
+                },
+                child: Text('Yes'),
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('No'))
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -58,8 +83,7 @@ class DrawerPage extends StatelessWidget {
               style: TextStyle(fontSize: 14),
             ),
             onTap: () {
-              signOut();
-              Navigator.of(context).popUntil((route) => true);
+              signOutConfirmation(context);
             },
           )
         ],

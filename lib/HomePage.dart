@@ -75,15 +75,16 @@ class HomeScreen extends StatelessWidget {
           SizedBox(
             height: 24,
           ),
-          ListTile(
-            leading: Image.network(
-              'https://lh5.googleusercontent.com/p/AF1QipM2kFjk8VVsAZWncUt0WJiqfKfQeJ0_V-zTG8zq=s0',
-            ),
-            onTap: () {
+          TextButton(
+            onPressed: () {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => MapPage()));
             },
-          ),
+            child: Text(
+              'Click here to see the cafes nearby Mahidol University',
+              style: TextStyle(color: Colors.teal.shade300),
+            ),
+          )
         ],
       ),
     );

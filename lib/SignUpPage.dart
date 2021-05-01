@@ -1,7 +1,6 @@
 import 'package:app_project/SignInPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -12,7 +11,6 @@ class _SignUpPageState extends State<SignUpPage> {
   String _email, _password, _confirmpassword;
 
   final auth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
